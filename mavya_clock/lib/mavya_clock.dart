@@ -61,18 +61,18 @@ class _MavyaClockState extends State<MavyaClock> {
       _dateTime = DateTime.now();
       // Update once per minute. If you want to update every second, use the
       // following code.
-      _timer = Timer(
-        Duration(minutes: 1) -
-            Duration(seconds: _dateTime.second) -
-            Duration(milliseconds: _dateTime.millisecond),
-        _updateTime,
-      );
+//      _timer = Timer(
+//        Duration(minutes: 1) -
+//            Duration(seconds: _dateTime.second) -
+//            Duration(milliseconds: _dateTime.millisecond),
+//        _updateTime,
+//      );
       // Update once per second, but make sure to do it at the beginning of each
       // new second, so that the clock is accurate.
-      // _timer = Timer(
-      //   Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
-      //   _updateTime,
-      // );
+       _timer = Timer(
+         Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
+         _updateTime,
+       );
     });
   }
 
@@ -81,15 +81,16 @@ class _MavyaClockState extends State<MavyaClock> {
     final hour =
         DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
     final minute = DateFormat('mm').format(_dateTime);
+    final seconds = DateFormat('ss').format(_dateTime);
     final fontSize = MediaQuery.of(context).size.width / 3.5;
     final offset = -fontSize / 7;
     final Shader linearGradient = LinearGradient(
-      colors: <Color>[Color(0xffe1f5fe), Color(0xff01579b)],
+      colors: <Color>[Color(0xffedf5fe), Color(0xcc01aaaa)],
     ).createShader(Rect.fromLTWH(0.0, 0.0, 250.0, 70.0));
 
     return Center(
       child: Container(
-        color: const Color(0xFFe0f2f1),
+//        color: const Color(0xFFe0f2f1),
         padding: EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
@@ -122,6 +123,17 @@ class _MavyaClockState extends State<MavyaClock> {
                   ),
                   Text(
                     ":" + minute,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: GoogleFonts.calistoga(
+                      textStyle: TextStyle(
+                          fontSize: 80,
+                          fontWeight: FontWeight.bold,
+                          foreground: Paint()..shader = linearGradient),
+                    ),
+                  ),
+                  Text(
+                    ":" + seconds,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: GoogleFonts.calistoga(
